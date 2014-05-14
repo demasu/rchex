@@ -6,6 +6,7 @@ use warnings;
 my $ruby_path    = '/usr/bin/ruby';
 my $ruby_target  = '1.8.7-p374';
 my $gem_path     = '/usr/bin/gem';
+my $gem_target   = '1.8.25';
 my $rails_path   = '/usr/local/bin/rails';
 my $rails_target = 'rails (2.3.18)';
 
@@ -25,6 +26,14 @@ if (-e $ruby_path) {
 
 if (-e $gem_path) {
     print "[Okay] - RubyGems exists\n";
+    
+    # We need to ensure this version is installed: 1.8.25
+    chomp(my $gem_version = `$gem_path -v`);
+    if ($gem_version eq $gem_target) {
+        print "[Okay] - Gem version matches target version: $gem_version\n";
+    } else {
+        die("[Fatal] - Gem version not at target: $gem_version installed, $gem_target expected\n");
+    }
 } else {
     die("[Fatal] - Can't find RubyGems\n");
 }
