@@ -30,9 +30,9 @@ if (-e $gem_path) {
     # We need to ensure this version is installed: 1.8.25
     chomp(my $gem_version = `$gem_path -v`);
     if ($gem_version eq $gem_target) {
-        print "[Okay] - Gem version matches target version: $gem_version\n";
+        print "[Okay] - RubyGems version matches target version: $gem_version\n";
     } else {
-        die("[Fatal] - Gem version not at target: $gem_version installed, $gem_target expected\n");
+        die("[Fatal] - RubyGems version not at target: $gem_version installed, $gem_target expected\n");
     }
 } else {
     die("[Fatal] - Can't find RubyGems\n");
