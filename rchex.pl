@@ -13,10 +13,10 @@ my $rails_target = 'rails (2.3.18)';
 if (-e $ruby_path) {
     print "[Okay] - Ruby exists\n";
     my $mode = (stat($ruby_path))[2];
-    printf "Permissions on binary: %04o\n", $mode &07777;
+    printf "[Info] - Permissions on binary: %04o\n", $mode &07777;
 
     # We need to ensure this version is installed: 1.8.7-p374
-    chomp(my $ruby_version = `ruby -e'puts "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"'`);
+    chomp(my $ruby_version = `$ruby_path -e'puts "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"'`);
     if ($ruby_version eq $ruby_target) {
         print "[Okay] - Ruby version matches target version: $ruby_version\n";
     } else {
