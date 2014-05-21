@@ -3,12 +3,14 @@
 use strict;
 use warnings;
 
-my $ruby_path    = '/usr/bin/ruby';
-my $ruby_target  = '1.8.7-p374';
-my $gem_path     = '/usr/bin/gem';
-my $gem_target   = '1.8.25';
-my $rails_path   = '/usr/local/bin/rails';
-my $rails_target = 'rails (2.3.18)';
+my $ruby_path       = '/usr/bin/ruby';
+my $ruby_target     = '1.8.7-p374';
+my $gem_path        = '/usr/bin/gem';
+my $gem_target      = '1.8.25';
+my $rails_path      = '/usr/local/bin/rails';
+my $rails_target    = 'rails (2.3.18)';
+my $mongrel_path    = '/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5';
+my $mongrel_target  = 'mongrel (1.1.5)';
 
 if (-e $ruby_path) {
     print "[Okay] - Ruby exists\n";
@@ -51,4 +53,18 @@ if (-e $rails_path) {
     }
 } else {
     die("[Fatal] - Can't find Rails\n");
+}
+
+if (-d $mongrel_path) {
+    print "[Okay] - Mongrel library present\n";
+
+    # We need to ensure this version is installed: 1.1.5
+    chomp(my $mongrel_version = `gem list mongrel|grep ^mongrel`);
+    if ($mongrel_version eq $mongrel_target) {
+        print "[Okay] - Mongrel version matches target version: $mongrel_target\n";
+    } else {
+        die("[Fatal] - String match verification failed - Mongrel version not at target: $mongrel_version installed, $mongrel_target expected\n");
+    }
+} else {
+    die("[Fatal] - Can't find Mongrel\n");
 }
