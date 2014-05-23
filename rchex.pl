@@ -17,8 +17,8 @@ my $mongrel_req_target = 'mongrel (1.1.5)';
 
 # Find the current binary Ruby is using, and compare it to what we want.
 chomp($ruby_found_path);
-if ($ruby_found_path ne $ruby_req_path) {
-    print "[Warning] - Installed Ruby may not be the one cPanel installs; keep an eye out.\n";
+if ($ruby_found_path eq $ruby_req_path) {
+    print "[Okay] - Ruby binary looks good.\n";
 
     # We need to ensure this version is installed: 1.8.7-p374
     chomp(my $ruby_version = `$ruby_req_path -e'puts "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"'`);
@@ -28,13 +28,13 @@ if ($ruby_found_path ne $ruby_req_path) {
         die("[Fatal] - Ruby version not at target: $ruby_version installed, $ruby_req_target expected\n");
     }
 } else {
-    print "[Okay] - Ruby binary looks good.\n";
+    print "[Warning] - Installed Ruby may not be the one cPanel installs; keep an eye out.\n";
 }
 
 # Find the current binary RubyGems is using, and compare it to what we want.
 chomp($gem_found_path);
-if ($gem_found_path ne $gem_req_path) {
-    print "[Warning] - Installed RubyGems may not be the one cPanel installs; keep an eye out.\n";
+if ($gem_found_path eq $gem_req_path) {
+    print "[Okay] - RubyGems binary looks good\n";
     
     # We need to ensure this version is installed: 1.8.25
     chomp(my $gem_version = `$gem_req_path -v`);
@@ -44,13 +44,13 @@ if ($gem_found_path ne $gem_req_path) {
         die("[Fatal] - RubyGems version not at target: $gem_version installed, $gem_req_target expected\n");
     }
 } else {
-    print "[Okay] - RubyGems binary looks good\n";
+    print "[Warning] - Installed RubyGems may not be the one cPanel installs; keep an eye out.\n";
 }
 
 # Find the current binary Rails is using, and compare it to what we want.
 chomp($rails_found_path);
-if ($rails_found_path ne $rails_req_path) {
-    print "[Warning] - Installed Rails may not be the one cPanel installs; keep an eye out.\n";
+if ($rails_found_path eq $rails_req_path) {
+    print "[Okay] - Rails binary looks good\n";
 
     # We need to ensure this version is installed: 2.3.18
     chomp(my $rails_version = `gem list rails|grep ^rails`);
@@ -61,7 +61,7 @@ if ($rails_found_path ne $rails_req_path) {
         die("[Fatal] - String match verification failed - Rails version not at target: $rails_version installed, $rails_req_target expected\n");
     }
 } else {
-    print "[Okay] - Rails binary looks good\n";
+    print "[Warning] - Installed Rails may not be the one cPanel installs; keep an eye out.\n";
 }
 
 if (-d $mongrel_req_path) {
