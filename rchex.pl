@@ -3,6 +3,13 @@
 use strict;
 use warnings;
 
+my $arg = $ARGV[0];
+
+if ( defined $arg and $arg eq "--help" ) {
+    help();
+    exit 0;
+}
+
 my $ruby_req_path      = '/usr/bin/ruby';
 my $ruby_found_path    = `which ruby`;
 my $ruby_req_target    = '1.8.7-p374';
@@ -18,14 +25,15 @@ my $mongrel_req_target = 'mongrel (1.1.5)';
 # Find the current binary Ruby is using, and compare it to what we want.
 chomp($ruby_found_path);
 if ($ruby_found_path eq $ruby_req_path) {
-    print "[Okay] - Ruby binary looks good.\n";
+    status_message("ok", "Ruby binary looks good");
 
     # We need to ensure this version is installed: 1.8.7-p374
     chomp(my $ruby_version = `$ruby_req_path -e'puts "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"'`);
     if ($ruby_version eq $ruby_req_target) {
-        print "[Okay] - Ruby version matches target version: $ruby_version\n";
+        status_message("ok", "Ruby version matches target version: $ruby_version");
     } else {
-        die("[Fatal] - Ruby version not at target: $ruby_version installed, $ruby_req_target expected\n");
+        # Not dying here, because we still want to know what else is broken. They could have uninstalled Ruby, or have it installed elsewhere. Keep this going...
+        status_message("fatal", "Ruby version not at target: $ruby_version installed, $ruby_req_target expected");
     }
 } else {
     print "[Warning] - Installed Ruby may not be the one cPanel installs; keep an eye out.\n";
@@ -76,4 +84,34 @@ if (-d $mongrel_req_path) {
     }
 } else {
     die("[Fatal] - Can't find Mongrel\n");
+}
+
+sub status_message {
+    my ($type, $message) = @_;
+    my $errlvl;
+    $message = "Something bad happened" unless length $message;
+
+    if ( $type =~ /warn/i ) {
+        $errlvl = "[Warning]";
+    } elsif ( $type =~ /fatal/i ) {
+        $errlvl = "[Fatal]";
+    } elsif ( $type =~ /ok/i ) {
+        $errlvl = "[Okay]";
+    } else {
+        $errlvl = "[Unknown]";
+    }
+    
+    return "$errlvl - $message\n";
+}
+
+sub help {
+    print "
+Script Name: $0
+Status:      Beta
+Maintainer:  Ryan Sherer
+Script home: https://github.com/polloparatodos/rchex\n
+\t--help       print this message and exit
+\t--user       do user checks for one user
+\t--all-users  do all user checks\n
+"
 }
