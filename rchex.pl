@@ -162,8 +162,3 @@ Script home: https://github.com/polloparatodos/rchex\n
 \t--help       print this message and exit
 "
 }
-
-sub user {
-    print "What is the cPanel username? ";
-    chomp( my $user = <STDIN> );
-}
