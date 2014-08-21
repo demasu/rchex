@@ -113,5 +113,6 @@ Script home: https://github.com/polloparatodos/rchex\n
 \t--help       print this message and exit
 \t--user       do user checks for one user
 \t--all-users  do all user checks\n
+
 "
 }
