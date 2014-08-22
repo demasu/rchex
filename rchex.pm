@@ -7,6 +7,27 @@ use Getopt::Long;
 
 package main;
 
+my $ruby_req_path      = '/usr/bin/ruby';
+# Doing this because it might not actually be installed, so we don't want annoying errors to print.
+my $ruby_found_path    = `which ruby 2> /dev/null`;
+my $ruby_req_target    = '1.8.7-p374';
+
+
+my $gem_req_path       = '/usr/bin/gem';
+# Doing this because it might not actually be installed, so we don't want annoying errors to print.
+my $gem_found_path     = `which gem 2> /dev/null`;
+my $gem_req_target     = '1.8.25';
+
+
+my $rails_req_path     = '/usr/bin/rails';
+# Doing this because it might not actually be installed, so we don't want annoying errors to print.
+my $rails_found_path   = `which rails 2> /dev/null`;
+my $rails_req_target   = 'rails (2.3.18)';
+
+
+my $mongrel_req_path   = '/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5';
+my $mongrel_req_target = 'mongrel (1.1.5)';
+
 main() unless caller;
 
 sub main {
@@ -48,7 +69,6 @@ sub ruby_installed_check {
 
 sub ruby_version_checks {
     # We need to ensure this version is installed: 1.8.7-p374
-    my $ruby_req_target     = '1.8.7-p374';
     chomp(my $ruby_version  = `ruby -e'puts "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"'`);
     
     if ($ruby_version eq $ruby_req_target) {
@@ -79,7 +99,7 @@ sub gem_version_checks {
     if ($gem_version eq $gem_req_target) {
         print status_message("ok", "Expected RubyGems version found");
     } elsif ( $gem_version eq "2.3.0" ) {
-        print status_message("warn", "Is there an issue with fetching modules in cPanel under \"Ruby Gems -> Show System Installed Modules\"? Check case #111553");
+        print status_message("warn", "RubyGems 2.3.0 found.\n\tIs there an issue with fetching modules in cPanel under \"Ruby Gems -> Show System Installed Modules\"? Check case #111553");
     } else {
         croak status_message("fatal", "RubyGems version not at target: $gem_version installed, $gem_req_target expected");
         # Let's die here, since a bad RubyGems version can mess with Rails compatibility, among other things.
