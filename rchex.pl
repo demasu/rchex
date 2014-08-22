@@ -53,7 +53,7 @@ sub ruby_installed_check {
 
 sub ruby_version_checks {
     # We need to ensure this version is installed: 1.8.7-p374
-    chomp(my $ruby_version = `$ruby_req_path -e'puts "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"'`);
+    chomp(my $ruby_version  = `ruby -e'puts "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"'`);
     if ($ruby_version eq $ruby_req_target) {
         print status_message("ok", "Expected Ruby version found: $ruby_version");
     } else {
