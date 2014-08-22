@@ -2,12 +2,22 @@
 
 use strict;
 use warnings;
-
+use Carp;
 use Getopt::Long;
 
-my ($help);
+package main;
 
-usage() if ( @ARGV > 1 or ! GetOptions('help|?' => \$help) or defined $help );
+main() unless caller;
+
+sub main {
+    my $help = '';
+
+    GetOptions( 'help|h' => \$help );
+
+    help() if $help;
+
+    initialize();
+}
 
 my $ruby_req_path      = '/usr/bin/ruby';
 # Doing this because it might not actually be installed, so we don't want annoying errors to print.
@@ -158,8 +168,13 @@ sub status_message {
     return "$errlvl - $message\n";
 }
 
-sub usage {
-    print "Unknown option: @_\n" if ( @_ );
-    print "usage: program [--help|-?]\n";
-    exit;
+sub help {
+    print "
+Script Name: $0
+Status:      Beta
+Maintainer:  Ryan Sherer
+Script home: https://github.com/polloparatodos/rchex\n
+\t--help       print this message and exit
+";
+    exit 1;
 }
