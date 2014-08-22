@@ -14,14 +14,20 @@ my $ruby_req_path      = '/usr/bin/ruby';
 # Doing this because it might not actually be installed, so we don't want annoying errors to print.
 my $ruby_found_path    = `which ruby 2> /dev/null`;
 my $ruby_req_target    = '1.8.7-p374';
+
+
 my $gem_req_path       = '/usr/bin/gem';
 # Doing this because it might not actually be installed, so we don't want annoying errors to print.
 my $gem_found_path     = `which gem 2> /dev/null`;
 my $gem_req_target     = '1.8.25';
+
+
 my $rails_req_path     = '/usr/bin/rails';
 # Doing this because it might not actually be installed, so we don't want annoying errors to print.
 my $rails_found_path   = `which rails 2> /dev/null`;
 my $rails_req_target   = 'rails (2.3.18)';
+
+
 my $mongrel_req_path   = '/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5';
 my $mongrel_req_target = 'mongrel (1.1.5)';
 
