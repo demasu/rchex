@@ -3,12 +3,11 @@
 use strict;
 use warnings;
 
-my $arg = $ARGV[0];
+use Getopt::Long;
 
-if ( defined $arg and $arg eq "--help" ) {
-    help();
-    exit 0;
-}
+my ($help);
+
+usage() if ( @ARGV > 1 or ! GetOptions('help|?' => \$help) or defined $help );
 
 my $ruby_req_path      = '/usr/bin/ruby';
 # Doing this because it might not actually be installed, so we don't want annoying errors to print.
@@ -83,7 +82,7 @@ sub gem_version_checks {
     if ($gem_version eq $gem_req_target) {
         print status_message("ok", "Expected RubyGems version found\n");
     } elsif ( $gem_version eq "2.3.0" ) {
-        print status_message("warn", "Is there an issue with fetching modules in cPanel under \"Ruby Gems -> Show System Installed Modules\"? Check case #111553");
+        print status_message("warn", "RubyGems 2.3.0 found.\n\tIs there an issue with fetching modules in cPanel under \"Ruby Gems -> Show System Installed Modules\"? Check case #111553");
     } else {
         print status_message("fatal", "RubyGems version not at target: $gem_version installed, $gem_req_target expected");
         # Let's die here, since a bad RubyGems version can mess with Rails compatibility, among other things.
@@ -159,12 +158,8 @@ sub status_message {
     return "$errlvl - $message\n";
 }
 
-sub help {
-    print "
-Script Name: $0
-Status:      Beta
-Maintainer:  Ryan Sherer
-Script home: https://github.com/polloparatodos/rchex\n
-\t--help       print this message and exit
-"
+sub usage {
+    print "Unknown option: @_\n" if ( @_ );
+    print "usage: program [--help|-?]\n";
+    exit;
 }
