@@ -30,9 +30,9 @@ my $rails_req_target   = 'rails (2.3.18)';
 my $mongrel_req_path   = '/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5';
 my $mongrel_req_target = 'mongrel (1.1.5)';
 
-initialize();
+main();
 
-sub initialize {
+sub main {
     # This portion launches and controlls function loads
     ruby_installed_check();
     
